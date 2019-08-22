@@ -2,6 +2,7 @@ package com.example.task_01;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.app.TaskStackBuilder;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -11,6 +12,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.work.Constraints;
+import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.example.task_01.databinding.ActivityMainBinding;
 
@@ -33,12 +39,14 @@ public class MainActivity extends AppCompatActivity  implements EasyPermissions.
     private static final String TAG = MainActivity.class.getSimpleName();
     private String url;
     ActivityMainBinding mainBinding;
+    WorkManager workManager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mainBinding = DataBindingUtil.setContentView(this,R.layout.activity_main);
+        workManager = WorkManager.getInstance();
         mainBinding.btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
